@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Sefaz</title>
+	
+</h:head>
+
+<h:body>
+	<h:form id="form">
+	
+		<table width="100%">
+			<!-- LINHA DO CABEÇALHO -->
+			<tr>
+				<td colspan="3" align="left">				  
+				<ui:insert name="cabecalho">
+					<p:graphicImage url="/resources/img/SefazCabecalho.jpg" width="100%" height="75px" />
+				</ui:insert>
+				</td>
+			</tr>
+			
+			<!-- LINHA DO MENU E CONTEÚDO -->
+			<tr>
+				<!-- COLUNA DO MENU -->
+				<td width="10px" height="800px" valign="top" bgcolor="#F6F6F6"  align="center">				
+					<ui:insert name="menu">
+						<h1></h1>
+						<h:panelGrid columns="1">	
+							<p:menu width="5px">
+						        <p:menuitem value="Home" action="/paginas/TelaHome.xhtml" update="@form"/>
+						        <p:menuitem value="Usuário" action="/paginas/TelaUsuario.xhtml" update="@form"/>						        
+						    	<p:menuitem value="Sair" action="#{LoginBean.sairLogin}" update="@form" />						    	
+						    </p:menu>							
+						</h:panelGrid>					
+					</ui:insert>				
+				</td>
+				
+				<!-- COLUNA CONTEÚDO -->
+				<td width="1200px" height="100%" valign="top" align="left">
+					<ui:insert name="conteudo">
+					
+					</ui:insert>
+            	</td>
+			</tr>			
+		</table>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templatePrincipal.xhtml">
+
+	<ui:define name="cabecalho">
+		<p:graphicImage url="/resources/img/SefazCabecalho.jpg"
+			width="100%" height="75px" />
+	</ui:define>
+
+	<ui:define name="menu">
+
+		<p:messages id="messages" showDetail="true" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+
+		<p:panelGrid style="width:100px;">
+			<h1></h1>
+			<p:row>
+				<!-- Email login -->
+				<p:outputLabel value="Informe o Email: " />
+			</p:row>
+		</p:panelGrid>
+		<p></p>
+		<p:panelGrid>
+			<p:row>
+				<p:inputText size="15"
+								value="#{LoginBean.usuario.email}"/>				
+			</p:row>
+		</p:panelGrid>
+		<p></p>
+		<p:panelGrid>
+			<p:row>
+				<!-- Senha login -->
+				<p:outputLabel value="Senha: " />
+			</p:row>
+		</p:panelGrid>
+		<p></p>
+		<p:panelGrid>
+			<p:row>
+				<p:password size="8" id="senhaLogin"
+					value="#{LoginBean.usuario.senha}" />
+			</p:row>
+		</p:panelGrid>
+
+		<p></p>
+		<p:commandButton value="Logar" action="#{LoginBean.logar}"
+			update="@form" />
+
+	</ui:define>
+</ui:composition>
+</html>

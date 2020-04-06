@@ -1,0 +1,177 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templatePrincipal.xhtml">
+
+	<ui:define name="cabecalho">
+		<p:graphicImage url="/resources/img/SefazCabecalho.jpg" width="100%"
+			height="75px" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<p:messages id="messages" showDetail="true" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+
+		<p:tabView>
+			<!-- TAB PARA PESQUISAR USUARIO -->
+			<p:tab title="Pesquisar Usuario">
+				<p:panelGrid style="width:1200px; ">
+					<p:row>
+						<p:column>
+
+							<!-- Nome pesquisa -->
+							<p:outputLabel value="Nome: " />
+							<p:inputText size="52"
+								value="#{UsuarioBean.usuarioPesquisa.nome}"
+								style="text-transform:uppercase" />
+
+							<!-- Email pesquisa -->
+							<p:outputLabel value=" " />
+							<p:outputLabel value="Email: " />
+							<p:inputText size="52"
+								value="#{UsuarioBean.usuarioPesquisa.email}"/>
+
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2" style="width:400px">
+							<h:outputLabel value="Telefone| DDD: " />
+							<p:inputText />
+							<p:outputLabel value=" " />
+							<h:outputLabel value="Número: " />
+							<p:inputText />
+							<p:outputLabel value=" " />
+							<h:outputLabel value="Tipo: " />
+							<p:inputText />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<h:panelGrid style="width:1200px; ">
+
+					<p:row>
+						<p:commandButton value="Pesquisar" update="@form"
+							actionListener="#{UsuarioBean.pesquisaPersonalizada}" />
+
+						<p:button value="" disabled="true" />
+
+						<p:commandButton value="Limpar" update="@form"
+							action="#{UsuarioBean.limparCampos}" />
+					</p:row>
+
+					<p:dataTable value="#{UsuarioBean.listaUsuario}" var="u" rows="30"
+						paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						emptyMessage="Nenhum Registro Encontrado">
+
+						<p:column headerText="NOME" width="70" sortBy="#{u.nome}">
+							<p:outputLabel value="#{u.nome}" />
+						</p:column>
+
+						<p:column headerText="EMAIL" style="text-align: center"
+							sortBy="#{u.email}" rendered="true" width="30">
+							<p:outputLabel value="#{u.email}" />
+						</p:column>
+
+						<p:column headerText="AÇÕES" width="40" style="text-align: center">
+
+							<h:commandButton value="Excluir"
+								onclick="return confirm('Confirma a exclusão?')"
+								action="#{UsuarioBean.excluir(u)}" update="@form" />
+
+							<p:outputLabel> / </p:outputLabel>
+
+							<h:commandButton value="Editar"
+								action="#{UsuarioBean.prepararEditar}">
+
+								<f:setPropertyActionListener
+									target="#{UsuarioBean.emailUsuarioEditar}" value="#{u.email}" />
+							</h:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</p:tab>
+			
+			<!-- TAB DE INSERIR USUÁRIO -->
+			<p:tab title="Inserir Usuario">
+				<h:panelGrid style="width:1200px; ">
+
+					<!-- NOME DO USUÁRIO -->
+					<p:outputLabel value="" />
+					<p:outputLabel value="Nome: " />
+					<p:inputText value="#{UsuarioBean.usuarioInserir.nome}"
+						style="text-transform:uppercase" size="50" />
+
+					<!-- EMAIL DO USUÁRIO -->
+					<p:outputLabel value="" />
+					<p:outputLabel value="Email: " />
+					<p:inputText value="#{UsuarioBean.usuarioInserir.email}" size="50" />
+
+					<p:row>
+						<p:column colspan="4">
+							<p:panel header="Telefones">
+								<p:panelGrid columns="7">
+									<h:outputLabel value="DDD: " />
+									<p:inputMask size="3" value="#{UsuarioBean.telefone.ddd}" mask="99"/>
+									<h:outputLabel value="Numero: " />
+									<p:inputText size="10" value="#{UsuarioBean.telefone.numero}" />
+									<h:outputLabel value="Tipo: " />
+									<p:selectOneMenu style="width:125px"
+										value="#{UsuarioBean.telefone.tipo}">
+										<f:selectItem itemLabel="Celular" itemValue="CELULAR" />
+										<f:selectItem itemLabel="Fixo" itemValue="FIXO" />
+									</p:selectOneMenu>
+									<p:commandButton value="Adicionar" update="telefones"
+										actionListener="#{UsuarioBean.adicionarTelefone}" />
+								</p:panelGrid>
+								<p:dataTable id="telefones" var="telefone"
+									value="#{UsuarioBean.usuarioInserir.telefones}">
+									<p:column headerText="DDD">
+										<h:outputText value="#{telefone.ddd}" />
+									</p:column>
+									<p:column headerText="Numero">
+										<h:outputText value="#{telefone.numero}" />
+									</p:column>
+									<p:column headerText="Tipo">
+										<h:outputText value="#{telefone.tipo}" />
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+						</p:column>
+					</p:row>
+
+					<!-- SENHA DO USUÁRIO -->
+					<!-- Senha inserir -->
+					<p:outputLabel value=" " />
+					<p:outputLabel value="Senha: " />
+					<p:password size="20" id="senhaInserir"
+						value="#{UsuarioBean.usuarioInserir.senha}" feedback="true"
+						promptLabel="digite a senha" weakLabel="senha fraca"
+						goodLabel="senha média" strongLabel="senha forte" />
+
+					<!-- Senha inserir confirmar -->
+					<p:outputLabel value=" " />
+					<p:outputLabel value="Repita a senha: " />
+					<p:password size="20" id="senhaConfirmar"
+						value="#{UsuarioBean.confirmarSenhaInserir}" feedback="true"
+						promptLabel="repita a senha" weakLabel="senha fraca"
+						goodLabel="senha média" strongLabel="senha forte" />
+				</h:panelGrid>
+				<br />
+				<p:row>
+					<p:commandButton value="Salvar" update="@form"
+						action="#{UsuarioBean.salvar}" />
+					<p:button value="" disabled="true" />
+
+					<p:commandButton value="Limpar" update="@form"
+						action="#{UsuarioBean.limparCampos}" />
+				</p:row>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+</ui:composition>
+</html>
